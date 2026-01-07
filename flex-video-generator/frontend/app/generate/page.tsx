@@ -63,8 +63,8 @@ export default function GeneratePage() {
     queryKey: ["generation", currentGeneration],
     queryFn: () => (currentGeneration ? api.getGeneration(currentGeneration) : null),
     enabled: !!currentGeneration,
-    refetchInterval: (data) =>
-      data?.status === "pending" || data?.status === "processing" ? 2000 : false,
+    refetchInterval: (query) =>
+      query.state.data?.status === "pending" || query.state.data?.status === "processing" ? 2000 : false,
   });
 
   const generateMutation = useMutation({
