@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Wand2, Play, Loader2, Download, RefreshCw, Copy } from "lucide-react";
@@ -26,7 +26,7 @@ import {
 import api from "@/lib/api";
 import { formatDateTime, getStatusColor } from "@/lib/utils";
 
-export default function GeneratePage() {
+function GeneratePageContent() {
   const searchParams = useSearchParams();
   const initialCreator = searchParams.get("creator") || "";
 
@@ -435,5 +435,13 @@ export default function GeneratePage() {
         </DialogContent>
       </Dialog>
     </div>
+  );
+}
+
+export default function GeneratePage() {
+  return (
+    <Suspense fallback={<div className="p-8">Loading...</div>}>
+      <GeneratePageContent />
+    </Suspense>
   );
 }

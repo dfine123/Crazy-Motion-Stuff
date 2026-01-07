@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useDropzone } from "react-dropzone";
@@ -25,7 +25,7 @@ interface UploadedFile {
   error?: string;
 }
 
-export default function UploadClipsPage() {
+function UploadClipsPageContent() {
   const searchParams = useSearchParams();
   const initialCreator = searchParams.get("creator") || "";
 
@@ -301,5 +301,13 @@ export default function UploadClipsPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function UploadClipsPage() {
+  return (
+    <Suspense fallback={<div className="p-8">Loading...</div>}>
+      <UploadClipsPageContent />
+    </Suspense>
   );
 }
